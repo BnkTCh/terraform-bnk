@@ -1,19 +1,17 @@
 #!/bin/bash
 
-#Installing Git
+#Uninstall old versions
 sudo su
-yum install git -y
+yum search docker
+yum info docker
 
-#Installing java
-yum install -y java-1.8.0-openjdk && yum install -y java-devel
+#Install Docker
+yum install docker -y
+systemctl start docker
+systemctl enable docker
 
 #Cloning the repo
-cd ~
-git clone https://github.com/spring-projects/spring-petclinic.git
-
-#Building app
-cd spring-petclinic
-./mvnw package
+docker pull bnktch/petclinic
 
 #Deploying app
-java -jar target/*.jar
+docker run -d -p 8080:8080 bnktch/petclinic
